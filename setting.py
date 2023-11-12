@@ -11,7 +11,7 @@ class Config:
         "deepL_api": "", # deepL 的API key, 如果要语音功能才需要
         "api_key": "", # 百度千帆大模型平台的API Key
         "secret_key": "", # 百度千帆大模型平台的Secret Key
-        "prefixes": ["/t"], # 触发群AI的前缀,如果不要前缀就改成[],改成[""]会让bot每句话都触发
+        "prefixes": ["/ernie","/wxyy"], # 触发群AI的前缀,如果不要前缀就改成[],改成[""]会让bot每句话都触发
         "group_context_max": 5, # 设置为-1则无限记录群聊，0则不记录，3则记录触发群AI前的最后3条消息，让群AI更加合群。ERNIE要求必须为奇数
         "ai_chat_max_token": 200, # 单条群AI回复内容的最大token数，大约100汉字的感觉
         "temp_chat_max_token": 500, # 单条临时会话回复内容的最大token数，注意单次请求必须小于4096token，这包括回复内容和所有的聊天信息，如果超出可能openAPI会报错，我不确定
