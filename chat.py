@@ -45,7 +45,7 @@ executor = ThreadPoolExecutor()
 executor = ThreadPoolExecutor()
 
 sv = Service(
-    name="群AI&chatGPT",  # 功能名
+    name="群AI&ERNIE",  # 功能名
     visible=True,  # 可见性
     enable_on_default=True,  # 默认启用
     bundle="娱乐",  # 分组归类
@@ -105,7 +105,7 @@ def get_eqa_question_list(group_id):
         qns_list.append(i[0]['qus'])
     return qns_list
 
-@sv.on_fullmatch('闭嘴', only_to_me=True)
+@sv.on_fullmatch('wxyy闭嘴', only_to_me=True)
 async def shut_up(bot, ev):
     group_id = str(ev.group_id)
     if group_id in conversation_list:
@@ -115,7 +115,7 @@ async def shut_up(bot, ev):
         return
     await bot.send(ev, f'可我没说话啊?')
 
-@sv.on_prefix(('调整AI概率'))
+@sv.on_prefix(('wxyy调整AI概率'))
 async def enable_aichat(bot, ev):
     s = ev.message.extract_plain_text()
     if s:
@@ -143,7 +143,7 @@ async def enable_aichat(bot, ev):
         save_chat(group_id, chat_dict)
     await bot.send(ev, f'{NICKNAME_list[0]}已启用, 当前{NICKNAME_list[0]}回复概率为{chance}%.')
 
-@sv.on_fullmatch('当前AI概率')
+@sv.on_fullmatch('wxyy当前AI概率')
 async def check_aichat(bot, ev):
     try:
         chance = cf.chance[str(ev.group_id)]
@@ -303,7 +303,7 @@ async def ai_chat(bot, ev):
         final_voice = MessageSegment.record(voice)
         await bot.send(ev, final_voice)
     
-@sv.on_fullmatch("清空群设定")
+@sv.on_fullmatch("wxyy清空群设定")
 async def clear_group_all(bot, ev):
     qq = str(ev.user_id) #TODO: check priv
     group_id = str(ev.group_id)
@@ -319,7 +319,7 @@ async def clear_group_all(bot, ev):
     save_chat(group_id, chat_dict)
     await bot.send(ev, "已清空群对话和设定")
 
-@sv.on_fullmatch("清空群对话")
+@sv.on_fullmatch("wxyy清空群对话")
 async def clear_group_conversation(bot, ev):
     qq = str(ev.user_id) #TODO: check priv
     group_id = str(ev.group_id)
@@ -335,7 +335,7 @@ async def clear_group_conversation(bot, ev):
     save_chat(group_id, chat_dict)
     await bot.send(ev, "已清空群对话")
 
-@sv.on_fullmatch("查看本群token")
+@sv.on_fullmatch("wxyy查看本群token")
 async def clear_group_conversation(bot, ev):
     qq = str(ev.user_id) #TODO: check priv
     group_id = str(ev.group_id)
@@ -346,7 +346,7 @@ async def clear_group_conversation(bot, ev):
     token_cost = chat.get_full_token_cost()
     await bot.send(ev, f"本群群聊天功能共使用{chat.get_full_token_cost()}枚token.")
 
-@sv.on_prefix("添加群设定")
+@sv.on_prefix("wxyy添加群设定")
 async def add_setting(bot, ev):
     new_setting = ev.message.extract_plain_text()
     qq = str(ev.user_id)
@@ -360,7 +360,7 @@ async def add_setting(bot, ev):
     save_chat(group_id, chat_dict)
     await bot.send(ev, "已添加群设定")
 
-@sv.on_fullmatch("继续临时会话")
+@sv.on_fullmatch("wxyy继续临时会话")
 async def continue_temp_chat(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
@@ -400,7 +400,7 @@ async def continue_temp_chat(bot, ev):
     chat_dict = chat.to_dict()
     save_temp_chat(conversation_id, chat_dict)
 
-@sv.on_fullmatch("创建临时会话")
+@sv.on_fullmatch("wxyy创建临时会话")
 async def start_temp_chat(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
@@ -431,7 +431,7 @@ async def start_temp_chat(bot, ev):
     chat_dict = chat.to_dict()
     save_temp_chat(conversation_id, chat_dict)
 
-@sv.on_fullmatch('结束临时会话')
+@sv.on_fullmatch('wxyy结束临时会话')
 async def end_temp_chat(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
@@ -446,7 +446,7 @@ async def end_temp_chat(bot, ev):
         await bot.send(ev, "错误404，未找到临时会话")
     return
 
-@sv.on_fullmatch('查看群设定')
+@sv.on_fullmatch('wxyy查看群设定')
 async def check_settings(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
@@ -480,7 +480,7 @@ async def change_max_token(bot, ev):
     await bot.send(ev, f"已修改成{max_token}tokens")
 '''
 
-@sv.on_prefix("调整记忆")
+@sv.on_prefix("wxyy调整记忆")
 async def change_group_context_max(bot, ev):
     s = ev.message.extract_plain_text()
     qq = str(ev.user_id)
@@ -501,7 +501,7 @@ async def change_group_context_max(bot, ev):
     save_chat(group_id, chat_dict)
     await bot.send(ev, f"塑料记忆已修改成{group_context_max}。请注意bot能处理的token数是有上限的，她不能陪伴你一身。")
 
-@sv.on_fullmatch('看看胖次') # 查看所有信息
+@sv.on_fullmatch('wxyy看看胖次') # 查看所有信息
 async def check_settings(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
@@ -517,7 +517,7 @@ async def check_settings(bot, ev):
         sv.logger.info(f"看看胖次图片发送失败")
         await bot.send(ev, "图片发送失败，可能是风控，或者网络问题，请稍后再试")
 
-@sv.on_fullmatch("启动语音")
+@sv.on_fullmatch("wxyy启动语音")
 async def enable_voice(bot, ev):
     group_id = str(ev.group_id)
     if not cf.deepL_api:
@@ -539,7 +539,7 @@ async def enable_voice(bot, ev):
     final_voice = MessageSegment.record(voice)
     await bot.send(ev, final_voice)
 
-@sv.on_fullmatch("禁用语音")
+@sv.on_fullmatch("wxyy禁用语音")
 async def enable_voice(bot, ev):
     group_id = str(ev.group_id)
     if group_id not in conversation_list:
