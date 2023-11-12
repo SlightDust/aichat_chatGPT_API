@@ -1,28 +1,16 @@
 # 群AI&chatGPT临时会话 二合一
-星乃Hoshino插件，使用openai的GPT3.5来让你的bot活起来，同时还能正常使用chatGPT的功能。
+星乃Hoshino插件，使用文心大模型的ERNIE-bot来让你的bot活起来，同时还能正常使用文心一言的功能。
 
 群AI会随机冒出来水群，也会在你提到她，回复她，艾特她的时候回复你
-
-星乃Hoshino插件，使用openai的GPT3.5来让你的bot活起来，同时还能正常使用chatGPT的功能。
 
 加了一个反并发，这个需要[反并发插件](https://github.com/lhhxxxxx/hoshino_tool)
 
 还加了一个反[eqa](https://github.com/pcrbot/erinilis-modules/tree/master/eqa)的并发，如果没装eqa就在`setting.py`里把`eqa_db_dir`那行改为`"eqa_db_dir" = "",`
 
-如果要使用gpt4的图片输入能力，请在`setting.py`里把默认模型修改为`gpt-4-vision-preview`；如果群AI已经开启，需要在`group_conversation.json`文件中修改对应群聊的模型为`gpt-4-vision-preview`   
-（不过目前来看token费率还是gpt3-turbo的10倍，有亿点贵）  
-
-模型名称可能会变，以[API官网](https://platform.openai.com/account/limits)或携带api_key请求 [https://api.openai.com/v1/models](https://api.openai.com/v1/models) 的结果为准
+模型名称可能会变，以[ERNIE-Bot-SDK](https://github.com/PaddlePaddle/ERNIE-Bot-SDK/blob/develop/docs/models.md)或调用`erniebot.Model.list()`的结果为准
 
 ## 新更新：
-新更新需要aiowebsocket
-
-0. 修复了继续临时会话无触发词的bug，修复了能重复创建临时会话的bug
-1. 查看群设定，查看全部信息（看看胖次）
-2. 添加了[AI语音](https://github.com/SonderXiaoming/youzi_voice)（目前只能用ATRI的语音）
-3. 长回复转化成图片发送
-4. 在群聊调整各种设置e.g.记录上限，最大字数
-5. 支持gpt-4vision模型的图片输入
+基于joeyHXD/aichat_chatGPT_API，修改为ERNIE-bot版本
 
 ## 全部指令：
 0. @bot+闭嘴：禁用群AI(临时会话不会受影响)
@@ -32,19 +20,19 @@
 4. 清空群对话：清空群AI保存的所有对话
 5. 查看本群token：当前群AI消耗的token，清空群对话会将token清零
 6. 添加群设定+{输入你的调教指令}：给群AI添加调教指令
-7. 创建临时会话：创建一个不受群设定影响的临时chatGPT会话，创建后chatGPT会回复你在群里的所有消息，一分钟内没收到消息会自动结束
-8. 继续临时会话：继续你上次的临时chatGPT会话
-9. 结束临时会话：提前结束你的临时chatGPT会话
+7. 创建临时会话：创建一个不受群设定影响的临时ERNIE-bot会话，创建后ERNIE-bot会回复你在群里的所有消息，一分钟内没收到消息会自动结束
+8. 继续临时会话：继续你上次的临时ERNIE-bot会话
+9. 结束临时会话：提前结束你的临时ERNIE-bot会话
 10. /t + 内容：用前缀"/t"触发群AI，可在setting.py里修改前缀
 11. 查看群设定
-12. 调整上限：调整群AI每句话使用的token
+12. ~~调整上限：调整群AI每句话使用的token~~ ERNIE不支持这个
 13. 调整记忆：调整群AI能记住的群消息
 14. 看看胖次：查看群AI的所有信息
 15. 启动/禁用语音：ATRI语音
 
 ## 安装指南：
 
-安装依赖`pip install openai == 0.28`
+安装依赖`pip install erniebot`
 
 安装依赖`pip install deepl`
 
@@ -52,15 +40,17 @@
 
 安装依赖`pip install aiowebsocket` 
 
-在`hoshino/modules/`的目录中克隆本插件`git clone https://github.com/joeyHXD/aichat_chatGPT_API.git`
+在`hoshino/modules/`的目录中克隆本插件并切换到ERNIE分支
 
 在`hoshino`的目录中加入[反并发`tool.py`](https://github.com/lhhxxxxx/hoshino_tool),注意是在hoshino目录下面，不是modules,如果反并发报错说明你的星乃该更新了
 
 去 [deepL官网](https://www.deepl.com/translator) 获取翻译用的API key（不用语音的话不需要）
 
-去 [openai官网](https://platform.openai.com/account/api-keys) 获取API key
+去 [百度智能云-千帆大模型平台](https://console.bce.baidu.com/qianfan/ais/console/applicationConsole/application) 创建应用，获取API Key和Secret Key  
 
-在`setting.py`的`api_key`填写API key,以及修改一些设定
+去千帆大模型平台[计费管理](https://console.bce.baidu.com/qianfan/chargemanage/list)开通`ERNIE-Bot-turbo-0922大模型公有云在线调用服务`的付费功能（费率是¥0.008元/千tokens）
+
+在`setting.py`的`API_key`和`Secret_key`填写API Key和Secret Key,以及修改一些设定
 
 在 `HoshinoBot\hoshino\config\__bot__.py` 文件的 `MODULES_ON` 加入 `aichat_chatGPT_API`，反并发不需要改`__bot__.py`
 
@@ -69,8 +59,6 @@
 临时会话的示范图：  
 ![image](https://user-images.githubusercontent.com/68325229/222948188-5dab4051-d422-495a-a2f2-ba9ef2eb8c9b.png)
 
-图片支持：
-![正在做了](https://s2.loli.net/2023/11/12/6HvSY4Xc3s9rx8B.png)
 
 ## 如果不知道使用什么群设定：
 
