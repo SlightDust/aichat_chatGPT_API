@@ -111,7 +111,7 @@ async def shut_up(bot, ev):
     if group_id in conversation_list:
         del conversation_list[group_id]
         cf.set_chance(group_id, 0)
-        await bot.send(ev, f'好的，如果你想{NICKNAME_list[0]}了，可以随时调整AI概率唤醒我哦.')
+        await bot.send(ev, f'好的，如果你想{NICKNAME_list[0]}了，可以随时wxyy调整AI概率唤醒我哦.')
         return
     await bot.send(ev, f'可我没说话啊?')
 
@@ -141,7 +141,7 @@ async def enable_aichat(bot, ev):
         conversation_list[group_id] = chat
         chat_dict = chat.to_dict()
         save_chat(group_id, chat_dict)
-    await bot.send(ev, f'{NICKNAME_list[0]}已启用, 当前{NICKNAME_list[0]}回复概率为{chance}%.')
+    await bot.send(ev, f'ERNIE{NICKNAME_list[0]}已启用, 当前{NICKNAME_list[0]}回复概率为{chance}%.')
 
 @sv.on_fullmatch('wxyy当前AI概率')
 async def check_aichat(bot, ev):
@@ -149,7 +149,7 @@ async def check_aichat(bot, ev):
         chance = cf.chance[str(ev.group_id)]
     except:
         chance = 0
-    await bot.send(ev, f'当前{NICKNAME_list[0]}回复概率为{chance}%.')
+    await bot.send(ev, f'ERNIE当前{NICKNAME_list[0]}回复概率为{chance}%.')
 
 @sv.on_message('group')
 @anti_conflict
@@ -311,13 +311,13 @@ async def clear_group_all(bot, ev):
         await bot.send(ev, "您的权限不足")
         return
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     chat = conversation_list[group_id]
     chat.clear_all()
     chat_dict = chat.to_dict()
     save_chat(group_id, chat_dict)
-    await bot.send(ev, "已清空群对话和设定")
+    await bot.send(ev, "已清空ERNIE群对话和设定")
 
 @sv.on_fullmatch("wxyy清空群对话")
 async def clear_group_conversation(bot, ev):
@@ -327,24 +327,24 @@ async def clear_group_conversation(bot, ev):
         await bot.send(ev, "您的权限不足")
         return
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     chat = conversation_list[group_id]
     chat.clear_messages()
     chat_dict = chat.to_dict()
     save_chat(group_id, chat_dict)
-    await bot.send(ev, "已清空群对话")
+    await bot.send(ev, "ERNIE已清空群对话")
 
 @sv.on_fullmatch("wxyy查看本群token")
 async def clear_group_conversation(bot, ev):
     qq = str(ev.user_id) #TODO: check priv
     group_id = str(ev.group_id)
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     chat = conversation_list[group_id]
     token_cost = chat.get_full_token_cost()
-    await bot.send(ev, f"本群群聊天功能共使用{chat.get_full_token_cost()}枚token.")
+    await bot.send(ev, f"本群ERNIE群聊天功能共使用{chat.get_full_token_cost()}枚token.")
 
 @sv.on_prefix("wxyy添加群设定")
 async def add_setting(bot, ev):
@@ -352,13 +352,13 @@ async def add_setting(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     chat = conversation_list[group_id]
     chat.add_conversation_setting(new_setting)
     chat_dict = chat.to_dict()
     save_chat(group_id, chat_dict)
-    await bot.send(ev, "已添加群设定")
+    await bot.send(ev, "已添加ERNIE群设定")
 
 @sv.on_fullmatch("wxyy继续临时会话")
 async def continue_temp_chat(bot, ev):
@@ -366,7 +366,7 @@ async def continue_temp_chat(bot, ev):
     group_id = str(ev.group_id)
     conversation_id = "_".join([qq, group_id])
     if conversation_id in temp_chats:
-        await bot.send(ev, "不能重复创建临时会话，请先使用指令“结束临时会话”.")
+        await bot.send(ev, "不能重复创建ERNIE临时会话，请先使用指令“wxyy结束临时会话”.")
         return
     if conversation_id not in conversation_list:
         chat = AIChat(
@@ -380,12 +380,12 @@ async def continue_temp_chat(bot, ev):
             temp_chat_record = json.load(file)
         if conversation_id in temp_chat_record:
             chat.load_dict(temp_chat_record[conversation_id])
-            await bot.send(ev, f"已加载上次的临时聊天记录，上次临时聊天共使用{chat.get_full_token_cost()}枚token.")
+            await bot.send(ev, f"已加载上次的ERNIE临时聊天记录，上次临时聊天共使用{chat.get_full_token_cost()}枚token.")
         else:
-            await bot.send(ev, "未找到上次的临时聊天记录，已创建新纪录.")
+            await bot.send(ev, "未找到上次的ERNIE临时聊天记录，已创建新记录.")
         conversation_list[conversation_id] = chat
     else:
-        await bot.send(ev, f"已加载上次的临时聊天记录，上次临时聊天共使用{conversation_list[conversation_id].get_full_token_cost()}枚token.")
+        await bot.send(ev, f"已加载上次的ERNIE临时聊天记录，上次临时聊天共使用{conversation_list[conversation_id].get_full_token_cost()}枚token.")
     temp_chats[conversation_id] = False
     await sleep(cf.sleep_time)
     while conversation_id in temp_chats:
@@ -396,7 +396,7 @@ async def continue_temp_chat(bot, ev):
             await sleep(cf.sleep_time)
     if conversation_id in temp_chats:
         del temp_chats[conversation_id]
-        await bot.send(ev, f"会话结束,合计使用{chat.get_full_token_cost()}枚token.")
+        await bot.send(ev, f"ERNIE会话结束,合计使用{chat.get_full_token_cost()}枚token.")
     chat_dict = chat.to_dict()
     save_temp_chat(conversation_id, chat_dict)
 
@@ -406,7 +406,7 @@ async def start_temp_chat(bot, ev):
     group_id = str(ev.group_id)
     conversation_id = "_".join([qq, group_id])
     if conversation_id in temp_chats:
-        await bot.send(ev, "不能重复创建临时会话，请先使用指令“结束临时会话”.")
+        await bot.send(ev, "不能重复创建ERNIE临时会话，请先使用指令“wxyy结束临时会话”.")
         return
     chat = AIChat(
                 bot_name = NICKNAME_list[0],
@@ -417,7 +417,7 @@ async def start_temp_chat(bot, ev):
     )
     conversation_list[conversation_id] = chat
     temp_chats[conversation_id] = False
-    await bot.send(ev, "已创建临时会话，你好！有什么我可以帮助你的吗？")
+    await bot.send(ev, "已创建ERNIE临时会话，你好！有什么我可以帮助你的吗？")
     await sleep(cf.sleep_time)
     while conversation_id in temp_chats:
         if temp_chats[conversation_id] == False:
@@ -427,7 +427,7 @@ async def start_temp_chat(bot, ev):
             await sleep(cf.sleep_time)
     if conversation_id in temp_chats:
         del temp_chats[conversation_id]
-        await bot.send(ev, f"临时会话结束,合计使用{chat.get_full_token_cost()}枚token.")
+        await bot.send(ev, f"ERNIE临时会话结束,合计使用{chat.get_full_token_cost()}枚token.")
     chat_dict = chat.to_dict()
     save_temp_chat(conversation_id, chat_dict)
 
@@ -439,11 +439,11 @@ async def end_temp_chat(bot, ev):
     if conversation_id in temp_chats:
         del temp_chats[conversation_id]
         chat = conversation_list[conversation_id]
-        await bot.send(ev, f"临时会话结束,合计使用{chat.get_full_token_cost()}枚token.")
+        await bot.send(ev, f"ERNIE临时会话结束,合计使用{chat.get_full_token_cost()}枚token.")
         chat_dict = chat.to_dict()
         save_temp_chat(conversation_id, chat_dict)
     else:
-        await bot.send(ev, "错误404，未找到临时会话")
+        await bot.send(ev, "错误404，未找到ERNIE临时会话")
     return
 
 @sv.on_fullmatch('wxyy查看群设定')
@@ -451,7 +451,7 @@ async def check_settings(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     chat = conversation_list[group_id]
     settings = chat.get_system_inputs()
@@ -486,7 +486,7 @@ async def change_group_context_max(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     group_context_max = cf.group_context_max # 后面不接数字时调整为默认概率
     if s:
@@ -499,14 +499,14 @@ async def change_group_context_max(bot, ev):
     chat.group_context_max = group_context_max
     chat_dict = chat.to_dict()
     save_chat(group_id, chat_dict)
-    await bot.send(ev, f"塑料记忆已修改成{group_context_max}。请注意bot能处理的token数是有上限的，她不能陪伴你一身。")
+    await bot.send(ev, f"ERNIE塑料记忆已修改成{group_context_max}。请注意bot能处理的token数是有上限的，她不能陪伴你一身。")
 
 @sv.on_fullmatch('wxyy看看胖次') # 查看所有信息
 async def check_settings(bot, ev):
     qq = str(ev.user_id)
     group_id = str(ev.group_id)
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     chat = conversation_list[group_id]
     reply = json.dumps(chat.to_dict(), indent=2, ensure_ascii=False)
@@ -514,17 +514,17 @@ async def check_settings(bot, ev):
     try:
         await bot.send(ev, f'[CQ:image,file={pic}]')
     except:
-        sv.logger.info(f"看看胖次图片发送失败")
-        await bot.send(ev, "图片发送失败，可能是风控，或者网络问题，请稍后再试")
+        sv.logger.info(f"ERNIE看看胖次图片发送失败")
+        await bot.send(ev, "ERNIE图片发送失败，可能是风控，或者网络问题，请稍后再试")
 
 @sv.on_fullmatch("wxyy启动语音")
 async def enable_voice(bot, ev):
     group_id = str(ev.group_id)
     if not cf.deepL_api:
-        await bot.send(ev, "请先设置deepL的API")
+        await bot.send(ev, "ERNIE请先设置deepL的API")
         return
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     chat = conversation_list[group_id]
     chat.voice = True
@@ -543,7 +543,7 @@ async def enable_voice(bot, ev):
 async def enable_voice(bot, ev):
     group_id = str(ev.group_id)
     if group_id not in conversation_list:
-        await bot.send(ev, "本群没开启群聊天功能,请先使用指令”调整AI概率+零到五十之间任意数字“初始化群聊天功能")
+        await bot.send(ev, "本群没开启ERNIE群聊天功能,请先使用指令”wxyy调整AI概率+零到五十之间任意数字“初始化群聊天功能")
         return
     chat = conversation_list[group_id]
     if chat.voice == False:
