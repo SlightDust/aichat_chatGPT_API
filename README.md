@@ -49,7 +49,7 @@
 
 去 [百度智能云-千帆大模型平台](https://console.bce.baidu.com/qianfan/ais/console/applicationConsole/application) 创建应用，获取API Key和Secret Key  
 
-去千帆大模型平台[计费管理](https://console.bce.baidu.com/qianfan/chargemanage/list)开通`ERNIE-Bot-turbo-0922大模型公有云在线调用服务`的付费功能（费率是¥0.008元/千tokens）
+去千帆大模型平台[计费管理](https://console.bce.baidu.com/qianfan/chargemanage/list)开通`ERNIE-Bot-turbo-0922大模型公有云在线调用服务`的付费功能（费率是¥0.008元/千tokens），然后提前给百度智能云充一两块，这个API基本是延迟几小时就扣款了，不是OpenAI那样按月记账单
 
 在`setting.py`的`api_key`和`secret_key`填写API Key和Secret Key,以及修改一些设定
 
