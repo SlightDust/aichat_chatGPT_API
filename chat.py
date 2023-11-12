@@ -459,6 +459,7 @@ async def check_settings(bot, ev):
     reply = "\n".join(settings)
     await bot.send(ev, reply)
 
+'''
 @sv.on_prefix("调整上限")
 async def change_max_token(bot, ev):
     s = ev.message.extract_plain_text()
@@ -479,6 +480,7 @@ async def change_max_token(bot, ev):
     chat_dict = chat.to_dict()
     save_chat(group_id, chat_dict)
     await bot.send(ev, f"已修改成{max_token}tokens")
+'''
 
 @sv.on_prefix("调整记忆")
 async def change_group_context_max(bot, ev):
