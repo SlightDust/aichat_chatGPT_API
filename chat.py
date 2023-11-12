@@ -132,7 +132,6 @@ async def enable_aichat(bot, ev):
             bot_name = NICKNAME_list[0],
             group_id = group_id,
             model = cf.model_used,
-            max_tokens = cf.ai_chat_max_token,
             group_context_max = cf.group_context_max,
             voice = cf.voice
         )
@@ -236,8 +235,19 @@ async def ai_chat(bot, ev):
                     )
             username = info.get("card", "") or info.get("nickname", "")
             qq_to_username[group_id][qq_number] = username
+    if str(ev["self_id"]) in qq_numbers:
+    #如果被艾特，则必定触发
+        contains_keyword = True
+    for words in Keywords:
+    #如果被提到了关键字，则必定触发
+        if words in msg:
+            contains_keyword = True
+    if not contains_keyword and not random.randint(1,100) <= int(cf.chance[str(group_id)]):
+    #roll触发概率
+        return
     if cf.group_context_max != 0:
-    # 输入群消息，即使不回复也会先输入，帮助以后的回复
+    # erniebot.errors.InvalidArgumentError: Message 1 has an invalid role: user
+    # ernie必须要求一问一答，所以只有出发后才记录
         username = qq_to_username[group_id][qq]
         msg = regex.sub(lambda m: '@' + qq_to_username[group_id].get(m.group(1), m.group(1)), text)
         msg = re.sub(r'\[CQ:[^]]+\]', '', msg)
@@ -255,16 +265,6 @@ async def ai_chat(bot, ev):
         else:
             msg = f"{username}：{msg}"
         chat.add_group_context("user", msg)
-    if str(ev["self_id"]) in qq_numbers:
-    #如果被艾特，则必定触发
-        contains_keyword = True
-    for words in Keywords:
-    #如果被提到了关键字，则必定触发
-        if words in msg:
-            contains_keyword = True
-    if not contains_keyword and not random.randint(1,100) <= int(cf.chance[str(group_id)]):
-    #roll触发概率
-        return
     loop = get_event_loop()
     reply = await loop.run_in_executor(executor, chat.get_group_reply, msg)
     # 去掉前缀 "bot_name:"
@@ -375,7 +375,6 @@ async def continue_temp_chat(bot, ev):
                     qq = qq,
                     group_id = group_id,
                     model = cf.model_used,
-                    max_tokens = cf.temp_chat_max_token
         )
         with open(temp_chat_path) as file:
             temp_chat_record = json.load(file)
@@ -415,7 +414,6 @@ async def start_temp_chat(bot, ev):
                 qq = qq,
                 group_id = group_id,
                 model = cf.model_used,
-                max_tokens = cf.temp_chat_max_token
     )
     conversation_list[conversation_id] = chat
     temp_chats[conversation_id] = False
@@ -477,7 +475,6 @@ async def change_max_token(bot, ev):
             await bot.finish(ev, '参数错误: 请输入0-4000之间的整数.')
             return
     chat = conversation_list[group_id]
-    chat.max_tokens = max_token
     chat_dict = chat.to_dict()
     save_chat(group_id, chat_dict)
     await bot.send(ev, f"已修改成{max_token}tokens")

@@ -4,6 +4,7 @@ from numbers import Number
 import erniebot
 import re
 from collections import deque
+import traceback
 
 class AIChat:
     def __init__(
@@ -33,6 +34,7 @@ class AIChat:
 摸余：啊这
 这里“摸余”和“袋鼠”都是群昵称。你要当作自己就在群里，并且恰当地加入会话。
 如果不知道说什么，可以分析一下群友的心理"""
+        self.messages = []
         self.conversation_id = conversation_id
         self.qq = qq
         self.group_id = group_id
@@ -44,7 +46,7 @@ class AIChat:
         if group_context_max == -1:
             self.group_context = deque([])
         else:
-            self.group_context = deque([], group_context_max + 1)
+            self.group_context = deque([], group_context_max)  # erniebot.errors.InvalidArgumentError: `messages` must have an odd number of elements. 必须要求奇数
         self.full_token_cost = 0
         self.last_token_cost = 0
         self.voice = voice
@@ -72,7 +74,7 @@ class AIChat:
             try:
                 return f"error {e.http_status}: {e.http_body['type']}"
             except:
-                return str(e.http_body)
+                return str(traceback.format_exc())
 
     def add_conversation_msg(self, role: str, content: str):
         message = {"role": role, "content": content}
@@ -150,7 +152,7 @@ class AIChat:
             "group_id": self.group_id,
             "model": self.model,
             "temperature": self.temperature,
-            "presence_penalty": self.presence_penalty,
+            "penalty_score": self.penalty_score,
             "group_context": list(self.group_context),
             "group_context_max": self.group_context_max,
             "full_token_cost": self.full_token_cost,
@@ -166,12 +168,12 @@ class AIChat:
         self.group_id = conversation["group_id"]
         self.model = conversation["model"]
         self.temperature = conversation["temperature"]
-        self.presence_penalty = conversation["presence_penalty"]
+        self.penalty_score = conversation["penalty_score"]
         self.group_context_max = conversation["group_context_max"]
         if self.group_context_max == -1:
             self.group_context = deque([])
         else:
-            self.group_context = deque([], self.group_context_max + 1)
+            self.group_context = deque([], self.group_context_max)  # erniebot.errors.InvalidArgumentError: `messages` must have an odd number of elements. 必须要求奇数
         self.group_context.extend(conversation["group_context"])
         self.full_token_cost = conversation["full_token_cost"]
         self.last_token_cost = conversation["last_token_cost"]
