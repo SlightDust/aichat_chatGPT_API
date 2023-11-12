@@ -7,7 +7,7 @@ from typing import List
 from asyncio import sleep, get_event_loop
 from concurrent.futures import ThreadPoolExecutor
 from sqlitedict import SqliteDict
-import openai
+import erniebot
 import deepl
 
 from hoshino import R, Service, priv
@@ -22,8 +22,8 @@ from .get_voice import voiceApi, getvoice
 # 获取初始设定
 cf = Config()
 Keywords = cf.Keywords
-openai.api_key = cf.api_key
-openai.proxy = cf.proxy
+erniebot.ak = cf.api_key
+erniebot.sk = cf.secret_key
 model_used = cf.model_used # 无效参数
 if cf.deepL_api:
     translator = deepl.Translator(cf.deepL_api)

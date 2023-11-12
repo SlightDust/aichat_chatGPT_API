@@ -50,7 +50,7 @@
 
 去千帆大模型平台[计费管理](https://console.bce.baidu.com/qianfan/chargemanage/list)开通`ERNIE-Bot-turbo-0922大模型公有云在线调用服务`的付费功能（费率是¥0.008元/千tokens）
 
-在`setting.py`的`API_key`和`Secret_key`填写API Key和Secret Key,以及修改一些设定
+在`setting.py`的`api_key`和`secret_key`填写API Key和Secret Key,以及修改一些设定
 
 在 `HoshinoBot\hoshino\config\__bot__.py` 文件的 `MODULES_ON` 加入 `aichat_chatGPT_API`，反并发不需要改`__bot__.py`
 

@@ -9,14 +9,15 @@ class Config:
         "temp_chat_file_name": "temp_chat.json",# 临时会话文件名
         "voice": False, # 是否开启语音
         "deepL_api": "", # deepL 的API key, 如果要语音功能才需要
-        "api_key": "", # openai 的 API key, https://platform.openai.com/account/api-keys
+        "api_key": "", # 百度千帆大模型平台的API Key
+        "secret_key": "", # 百度千帆大模型平台的Secret Key
         "prefixes": ["/t"], # 触发群AI的前缀,如果不要前缀就改成[],改成[""]会让bot每句话都触发
         "group_context_max": 5, # 设置为-1则无限记录群聊，0则不记录，3则记录触发群AI前的最后3条消息，让群AI更加合群
         "ai_chat_max_token": 200, # 单条群AI回复内容的最大token数，大约100汉字的感觉
         "temp_chat_max_token": 500, # 单条临时会话回复内容的最大token数，注意单次请求必须小于4096token，这包括回复内容和所有的聊天信息，如果超出可能openAPI会报错，我不确定
         "max_len_image_draw": 100, # 超出100字就会转换成图片,不想换图片就改成个3000字
-        "proxy": None, # 代理格式：{"http": your_proxy, "https": your_proxy}
-        "model_used": "gpt-3.5-turbo-0301", # 无效参数，暂时默认gpt-3.5-turbo，以后有空再补上
+        # "proxy": None, # 代理格式：{"http": your_proxy, "https": your_proxy}  ERNIE暂不支持，好像也不需要这个
+        "model_used": "ernie-bot-turbo", # 无效参数，暂时默认gpt-3.5-turbo，以后有空再补上
         "sleep_time": 60, #默认60秒，临时会话自动结束
         "DEFAULT_AI_CHANCE": 0, #群AI的默认概率
         "Keywords": ['bot','BOT','Bot','机器人','人工智障'], #你家bot说话的关键词，也可以把bot名字写这
@@ -44,9 +45,9 @@ class Config:
 4. 清空群对话：清空群AI保存的所有对话
 5. 查看本群token：当前群AI消耗的token，清空群对话会将token清零
 6. 添加群设定+{输入你的调教指令}：给群AI添加调教指令
-7. 创建临时会话：创建一个不受群设定影响的临时chatGPT会话，创建后chatGPT会回复你在群里的所有消息，一分钟内没收到消息会自动结束
-8. 继续临时会话：继续你上次的临时chatGPT会话
-9. 结束临时会话：提前结束你的临时chatGPT会话
+7. 创建临时会话：创建一个不受群设定影响的临时ERNIE-bot会话，创建后ERNIE-bot会回复你在群里的所有消息，一分钟内没收到消息会自动结束
+8. 继续临时会话：继续你上次的临时ERNIE-bot会话
+9. 结束临时会话：提前结束你的临时ERNIE-bot会话
 10. /t + 内容：用前缀"/t"触发群AI，可在setting.py里修改前缀
 11. 查看群设定
 12. 调整上限：调整群AI每句话使用的token
