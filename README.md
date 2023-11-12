@@ -1,7 +1,7 @@
 # 群AI&chatGPT临时会话 二合一
 星乃Hoshino插件，使用文心大模型的ERNIE-bot来让你的bot活起来，同时还能正常使用文心一言的功能。
 
-群AI会随机冒出来水群，也会在你提到她，回复她，艾特她的时候回复你
+~~群AI会随机冒出来水群~~（这点做不到），也会在你提到她，回复她，艾特她的时候回复你
 
 加了一个反并发，这个需要[反并发插件](https://github.com/lhhxxxxx/hoshino_tool)
 
@@ -10,7 +10,8 @@
 模型名称可能会变，以[ERNIE-Bot-SDK](https://github.com/PaddlePaddle/ERNIE-Bot-SDK/blob/develop/docs/models.md)或调用`erniebot.Model.list()`的结果为准
 
 ## 新更新：
-基于joeyHXD/aichat_chatGPT_API，修改为ERNIE-bot版本
+基于joeyHXD/aichat_chatGPT_API，修改为ERNIE-bot版本。  
+受ERNIE严格的一问一答的限制，和chatGPT版相比，必须在触发ERNIE并且ERNIE给出回答时才能记录群消息。
 
 ## 全部指令：
 0. @bot+闭嘴：禁用群AI(临时会话不会受影响)
@@ -75,3 +76,4 @@
 3. 如果要重置bot,建议先@bot闭嘴，然后调整AI概率启动，因为直接清空群设定会把内置的基础设定也清了
 4. 临时会话暂时不能添加设定
 5. 如果bot突然犯病了，比如忘记人设，可以`清空群对话`
+6. 如果启动报错`ERROR: cannot import name 'Self' from 'typing_extensions'`，需要升级依赖`pip install typing-extensions==4.8.0`
