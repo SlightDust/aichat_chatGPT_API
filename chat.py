@@ -242,7 +242,8 @@ async def ai_chat(bot, ev):
         msg = regex.sub(lambda m: '@' + qq_to_username[group_id].get(m.group(1), m.group(1)), text)
         msg = re.sub(r'\[CQ:[^]]+\]', '', msg)
         if len(images) > 0:
-            # 消息中存在图片，按照OpenAI api官网的格式存
+            # 消息中存在图片，姑且按照OpenAI api官网的格式存
+            # ERNIE：“我们借鉴了OpenAI Python Library的部分API设计”
             msg = [{"type": "text", "text": f"{username}：{msg}"}]
             for image in images:
                 msg.append(

@@ -13,7 +13,7 @@ class AIChat:
                 qq: str = "", # 临时会话使用者的qq号，无效参数，仅用来判断是否临时会话
                 group_id: str = "", # 给群AI用的id
                 bot_name = "", # 群AI的自己认可的名字
-                model: str = "ernie-bot-turbo", # "gpt-3.5-turbo" or "gpt-3.5-turbo-0301"
+                model: str = "ernie-bot-turbo", # 详见https://github.com/PaddlePaddle/ERNIE-Bot-SDK/blob/develop/docs/models.md
                 temperature: Number = 0.95, # 用于调节模型输出概率分布，从而控制生成结果的随机性。 默认0.95，范围为(0, 1.0]，不能为0；
                 # max_tokens: int = 1000, # ERNIE没有这个选项，默认3000，ernie-bot-8k是7000
                 penalty_score: Number = 1.0, # 通过对已生成的token增加惩罚，减少重复生成的现象。此参数值越高则惩罚越大。值越大表示惩罚越大；默认1.0，取值范围：[1.0, 2.0]。
@@ -27,15 +27,12 @@ class AIChat:
             self.system = ""
         else:
         # 如果要加其他设定可以通过 <添加群设定> 添加
-            self.system = [
-                    {"role": "system", "content":  
-                    f"""你的名字是“{bot_name}”，你应该假装自己是一个人类，我会提供一些聊天记录，就好像这样：
+            self.system =f"""你的名字是“{bot_name}”，你应该假装自己是一个人类，我会提供一些聊天记录，就好像这样：
 摸余：早
 袋鼠：早什么早,听好，早上要说我爱你
 摸余：啊这
 这里“摸余”和“袋鼠”都是群昵称。你要当作自己就在群里，并且恰当地加入会话。
-如果不知道说什么，可以分析一下群友的心理"""},
-                    {"role": "system", "content":  "绝对不可以复述别人的话, 也绝对不可以@别人"}]
+如果不知道说什么，可以分析一下群友的心理"""
         self.conversation_id = conversation_id
         self.qq = qq
         self.group_id = group_id
@@ -153,9 +150,7 @@ class AIChat:
             "group_id": self.group_id,
             "model": self.model,
             "temperature": self.temperature,
-            "max_tokens": self.max_tokens,
             "presence_penalty": self.presence_penalty,
-            "frequency_penalty": self.frequency_penalty,
             "group_context": list(self.group_context),
             "group_context_max": self.group_context_max,
             "full_token_cost": self.full_token_cost,
@@ -171,9 +166,7 @@ class AIChat:
         self.group_id = conversation["group_id"]
         self.model = conversation["model"]
         self.temperature = conversation["temperature"]
-        self.max_tokens = conversation["max_tokens"]
         self.presence_penalty = conversation["presence_penalty"]
-        self.frequency_penalty = conversation["frequency_penalty"]
         self.group_context_max = conversation["group_context_max"]
         if self.group_context_max == -1:
             self.group_context = deque([])
